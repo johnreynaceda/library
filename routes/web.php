@@ -2,6 +2,7 @@
 
 use App\Http\Middleware\admin;
 use App\Http\Middleware\user;
+use App\Http\Controllers\UserController;
 use App\Http\Controllers\AuthController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -49,6 +50,16 @@ Route::prefix('user')->middleware(['auth', user::class])->group(function () {
         return view('user.books');
     })->name('books');
 
+    Route::get('/profile', function () {
+        return view('user.profile');
+    })->name('prof');
+
+
+
+});
+
+Route::middleware('auth')->group(function () {
+    Route::get('/user/download-id', [UserController::class, 'downloadId'])->name('user.downloadId');
 });
 Route::view('profile', 'profile')
     ->middleware(['auth'])

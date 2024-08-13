@@ -15,7 +15,7 @@
                         <p class="text-gray-600 mb-1">Description: {{ $book->description }}</p>
                     </div>
                     <div class="flex justify-center p-4 border-t border-gray-200">
-                        <button wire:click="borrow({{ $book->id }})" class="bg-green-500 text-white py-1 px-4 rounded hover:bg-green-600">Borrow Now</button>
+                        <button wire:click="openConfirmModal({{ $book->id }})" class="bg-green-500 text-white py-1 px-4 rounded hover:bg-green-600">Borrow Now</button>
                     </div>
                 </div>
             @empty
@@ -30,20 +30,57 @@
         </div>
     </div>
 
-    <!-- QR Code Modal -->
-    <x-modal-card title="QR Code" name="qr_modal" wire:model.defer="qr_modal">
-        <div class="p-4 text-center">
-            @if ($qrCode)
-                <img src="data:image/png;base64,{{ $qrCode }}" alt="QR Code" class="w-48 h-48 mx-auto mb-4">
-                <a href="{{ $qrCodePath }}" download="qr_code.png" class="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600">Download QR Code</a>
-            @else
-                <p>No QR code available.</p>
+    <x-modal-card title="Borrow Book" name="confirmmodal" wire:model.defer="confirmmodal" class="max-w-lg mx-auto bg-white shadow-lg rounded-lg p-6">
+        <div class="flex flex-col items-center">
+            @if ($selectedBook)
+                <!-- Book Cover Photo -->
+                <img src="{{ $selectedBook->image ? asset('storage/' . $selectedBook->image) : 'https://via.placeholder.com/300' }}" alt="Book Cover" class="w-full h-64 object-cover rounded-md shadow-md mb-4">
+
+                <!-- Book Details -->
+                <div class="bg-gray-100 p-4 rounded-md shadow-sm w-full mb-4">
+                    <p class="text-gray-700 font-semibold mb-1">Author:</p>
+                    <p class="text-gray-800 mb-2">{{ $selectedBook->author }}</p>
+                    <p class="text-gray-700 font-semibold mb-1">Publisher:</p>
+                    <p class="text-gray-800">{{ $selectedBook->publisher }}</p>
+                </div>
+
+                <!-- Terms and Conditions -->
+                <div class="w-full bg-gray-50 p-4 rounded-md shadow-sm">
+                    <x-checkbox id="agree" wire:model="isAgreed" label="I agree to the terms and conditions" primary />
+                    <div class="mt-4 text-gray-700">
+                        <h4 class="font-semibold mb-2">Terms and Conditions</h4>
+                        <div>
+                            <h5 class="font-semibold">Borrowing Period</h5>
+                            <p>The borrower is allowed to borrow the book for a period of one week (7 days) starting from the date of issuance.</p>
+                        </div>
+                        <div class="mt-2">
+                            <h5 class="font-semibold">Late Return Penalty</h5>
+                            <p>If the borrower fails to return the book by the due date, a penalty fee will be applied for each day the book is overdue. The penalty fee is P20.00 per day.</p>
+                        </div>
+                        <div class="mt-2">
+                            <h5 class="font-semibold">Responsibility</h5>
+                            <p>The borrower is responsible for the book during the borrowing period and must ensure that it is returned in the same condition as it was issued.</p>
+                        </div>
+                        <div class="mt-2">
+                            <h5 class="font-semibold">Lost or Damaged Books</h5>
+                            <p>In the event that the book is lost or returned damaged, the borrower will be required to pay the full replacement cost of the book.</p>
+                        </div>
+                    </div>
+                </div>
+
+
+                @if ($validationMessage)
+                    <div class="w-full bg-red-100 text-red-700 p-4 rounded-md mb-4">
+                        {{ $validationMessage }}
+                    </div>
+                @endif
             @endif
         </div>
 
         <x-slot name="footer">
-            <div class="flex justify-end gap-x-4">
-                <x-button flat label="Close" wire:click="closeModal" />
+            <div class="flex justify-end gap-x-4 p-4">
+                <x-button flat label="Cancel" wire:click="closeModal" class="bg-gray-300 hover:bg-gray-400 text-gray-800 rounded-lg px-4 py-2 transition duration-300" />
+                <x-button primary label="Borrow Now" wire:click="borrow" class="bg-blue-600 hover:bg-blue-700 text-white rounded-lg px-4 py-2 transition duration-300" />
             </div>
         </x-slot>
     </x-modal-card>

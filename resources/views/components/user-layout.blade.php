@@ -6,6 +6,9 @@
     <title>LMS</title>
     <link href="https://cdn.jsdelivr.net/npm/flowbite@2.4.1/dist/flowbite.min.css" rel="stylesheet" />
     <script src="https://cdn.jsdelivr.net/npm/flowbite@2.4.1/dist/flowbite.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     @wireUiScripts
     <style>
@@ -36,7 +39,7 @@
             <div class="items-center justify-between hidden w-full md:flex md:w-auto md:order-1" id="navbar-cta">
                 <ul class="flex flex-col font-medium p-4 md:p-0 mt-4 border border-gray-100 rounded-lg  md:space-x-8 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0 md:bg-white dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700">
                     <li>
-                        <a href="" class="block py-2 px-3 md:p-0 text-gray-900 bg-green-custom rounded md:bg-transparent md:text-green-custom md:dark:text-green-500" aria-current="page">Home</a>
+                        <a href="{{route('user-dashboard')}}" class="block py-2 px-3 md:p-0 text-gray-900 bg-green-custom rounded md:bg-transparent md:text-green-custom md:dark:text-green-500" aria-current="page">Home</a>
                     </li>
                     <li>
                         <a href="{{route('books')}}" class="block py-2 px-3 md:p-0 text-gray-900 rounded hover:bg-green-light md:hover:bg-transparent md:hover:text-green-custom md:dark:hover:text-green-500 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">Books</a>
@@ -48,13 +51,23 @@
                     <li>
                         <a href="" class="block py-2 px-3 md:p-0 text-gray-900 rounded hover:bg-green-light md:hover:bg-transparent md:hover:text-green-custom md:dark:hover:text-green-500 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">Terms and Condition</a>
                     </li>
+
+                    <li>
+                        <a href="{{route('prof')}}" class="block py-2 px-3 md:p-0 text-gray-900 rounded hover:bg-green-light md:hover:bg-transparent md:hover:text-green-custom md:dark:hover:text-green-500 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">Profile</a>
+                    </li>
+
+                    <div>
+                        <a href="{{route('logout')}}">Logout</a>
+                    </div>
                 </ul>
 
-                <div>
-                    <a href="{{route('logout')}}">Logout</a>
-                </div>
+
             </div>
+
+
         </div>
+
+
     </nav>
 
     <div>

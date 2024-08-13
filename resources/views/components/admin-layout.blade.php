@@ -7,8 +7,9 @@
     <link href="https://cdn.jsdelivr.net/npm/flowbite@2.4.1/dist/flowbite.min.css" rel="stylesheet" />
     <script src="https://cdn.jsdelivr.net/npm/flowbite@2.4.1/dist/flowbite.min.js"></script>
     <link href="https://cdn.jsdelivr.net/npm/remixicon@4.3.0/fonts/remixicon.css" rel="stylesheet"/>
-       <script src="https://cdn.jsdelivr.net/npm/instascan@1.0.0/instascan.min.js"></script>
-       <script src="https://unpkg.com/qr-scanner/qr-scanner.min.js"></script>
+    <script type="text/javascript" src="instascan.min.js"></script>
+       <script src="https://cdn.jsdelivr.net/npm/instascan@1.0.0/build/instascan.min.js"></script>
+
 
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     @wireUiScripts
