@@ -1,36 +1,51 @@
-<div>
-    @if ($qr_code == null)
-        <div class="w-96">
-            <div id="reader"></div>
-        </div>
-    @endif
+<div class="p-6 bg-white shadow-md rounded-lg mt-12">
+    <h2 class="text-2xl font-semibold mb-4">Borrowed Books List</h2>
 
-    <script>
-        document.addEventListener('livewire:load', function () {
-            const scanner = new Html5QrcodeScanner('reader', {
-                qrbox: {
-                    width: 250,
-                    height: 250,
-                },
-                fps: 20,
-            });
+    <!-- Search Input and Button -->
+    <div class="mb-4 flex">
+        <input type="text" wire:model.defer="search" placeholder="Search by book title or borrower name..." class="px-4 py-2 border rounded-l-lg w-full">
+        <button wire:click="searchBooks" class="bg-blue-500 text-white px-4 py-2 rounded-r-lg hover:bg-blue-600">Search</button>
+    </div>
 
-            scanner.render(success, error);
+    <table class="min-w-full leading-normal">
+        <thead>
+            <tr>
+                <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Book Title</th>
+                <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Borrower</th>
+                <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Borrowed At</th>
+                <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Due Date</th>
+                {{-- <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Status</th> --}}
+                <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach ($borrowedBooks as $borrow)
+                <tr>
+                    <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                        {{ $borrow->book->title }}
+                    </td>
+                    <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                        {{ $borrow->user->name }}
+                    </td>
+                    <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                        {{ $borrow->borrowed_at->format('M d, Y') }}
+                    </td>
+                    <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                        {{ $borrow->due_date->format('M d, Y') }}
+                    </td>
+                    {{-- <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                        {{ ucfirst($borrow->status) }}
+                    </td> --}}
+                    <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                        <button wire:click="approve({{ $borrow->id }})" class="bg-green-500 text-white py-1 px-4 rounded hover:bg-green-600">Approve</button>
+                        <button wire:click="decline({{ $borrow->id }})" class="bg-red-500 text-white py-1 px-4 rounded hover:bg-red-600">Decline</button>
+                    </td>
+                </tr>
+            @endforeach
+        </tbody>
+    </table>
 
-            function success(result) {
-                Livewire.emit('qrScanned', result);
-            }
-
-            function error(err) {
-                console.error(err);
-            }
-        });
-    </script>
-
-    <div class="flex justify-between items-center">
-        <div class="flex space-x-2 items-end">
-            <x-button label="SCAN QR" wire:click.prevent="scanNow" sm positive right-icon="qrcode" />
-        </div>
-        <x-button label="ATTENDANCE LISTS" href="" icon="document-text" slate class="font-medium" />
+    <div class="mt-4">
+        {{ $borrowedBooks->links() }}
     </div>
 </div>

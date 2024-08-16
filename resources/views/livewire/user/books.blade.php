@@ -1,11 +1,11 @@
 <div>
-    <div class="p-6 bg-white shadow-md rounded-lg mt-12">
+    <div class="p-6 bg-white shadow-md rounded-lg mt-12 ">
         <h2 class="text-2xl font-semibold mb-4">Books List</h2>
         <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
             @forelse ($books as $book)
                 <div class="bg-white shadow-lg rounded-lg overflow-hidden">
                     <img src="{{ $book->image ? asset('storage/' . $book->image) : 'https://via.placeholder.com/150' }}" alt="Book Cover" class="w-full h-48 object-cover">
-                    <div class="p-4">
+                    <div class="p-4 w-80">
                         <h3 class="text-xl font-semibold mb-2">{{ $book->title }}</h3>
                         <p class="text-gray-600 mb-1">ISBN: {{ $book->isbn }}</p>
                         <p class="text-gray-600 mb-1">Catalog: {{ $book->catalog }}</p>

@@ -37,6 +37,15 @@ Route::prefix('admin')->middleware(['auth', admin::class])->group(function () {
         return view('admin.book-borrow');
     })->name('book-b');
 
+    Route::get('/Books-notreturn', function () {
+        return view('admin.book-notreturn');
+    })->name('not-return');
+
+    Route::get('/Borrowed-books', function () {
+        return view('admin.borrowed-books');
+    })->name('borrowed-b');
+
+
 
 });
 

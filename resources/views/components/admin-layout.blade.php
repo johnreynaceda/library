@@ -112,19 +112,21 @@
                 <li>
                     <a href="{{route('book-b')}}" class="flex items-center p-2 rounded-lg hover:bg-gray-700">
                         <i class="ri-git-repository-commits-fill"></i>
-                        <span class="ms-3">Book Borrowed</span>
+                        <span class="ms-3">Borrower List</span>
                     </a>
                 </li>
 
                 <li>
-                    <a href="" class="flex items-center p-2 rounded-lg hover:bg-gray-700">
-                        <i class="ri-git-repository-fill"></i>
-                        <span class="ms-3">Book Return</span>
+                    <a href="{{route('borrowed-b')}}" class="flex items-center p-2 rounded-lg hover:bg-gray-700">
+                        <i class="ri-git-repository-commits-fill"></i>
+                        <span class="ms-3">Borrowed books</span>
                     </a>
                 </li>
 
+
+
                 <li>
-                    <a href="" class="flex items-center p-2 rounded-lg hover:bg-gray-700">
+                    <a href="{{route('not-return')}}" class="flex items-center p-2 rounded-lg hover:bg-gray-700">
                         <i class="ri-git-repository-fill"></i>
                         <span class="ms-3">Book Not Return</span>
                     </a>

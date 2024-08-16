@@ -25,6 +25,13 @@ class User extends Authenticatable
         'photo',
     ];
 
+    protected $table = 'users';
+
+    // Define the inverse relationship with ProcessedBorrowBooks
+    public function processedBorrowBooks()
+    {
+        return $this->hasMany(processed_borrowbooks::class, 'user_id');
+    }
     /**
      * The attributes that should be hidden for serialization.
      *

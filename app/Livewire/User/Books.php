@@ -58,9 +58,9 @@ class Books extends Component
                         'book_id' => $book->id,
                         'user_id' => $userId,
                         'borrowed_at' => now(),
-                        'due_date' => now()->addWeeks(1),
+                        'due_date' => now(),
                         'returned_at' => null,
-                        'status' => 'borrowed',
+                        'status' => 'Borrow',
                     ]);
                     flash()->success('Book borrowed successfully!', [
                         'message' => 'Book borrowed successfully!.',

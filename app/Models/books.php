@@ -18,4 +18,11 @@ class books extends Model
         'category',
         'image'
     ];
+
+    protected $table = 'books';
+
+    public function processedBorrowBooks()
+    {
+        return $this->hasMany(processed_borrowbooks::class, 'book_id');
+    }
 }
