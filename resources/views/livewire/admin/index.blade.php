@@ -2,7 +2,7 @@
     <div class="p-4">
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             <div class="bg-white p-6 rounded-lg shadow-md">
-                <h3 class="text-lg font-semibold text-green-700">Number of Borrowed Books</h3>
+                <h3 class="text-lg font-semibold text-green-700">Number of Borrow Books</h3>
                 <p class="text-2xl font-bold text-gray-800 mt-2">{{ $totalBorrowedBooks }}</p>
                 <p class="text-sm text-gray-500 mt-1">Updated as of today</p>
             </div>

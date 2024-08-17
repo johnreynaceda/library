@@ -62,8 +62,8 @@ class Books extends Component
                         'returned_at' => null,
                         'status' => 'Borrow',
                     ]);
-                    flash()->success('Book borrowed successfully!', [
-                        'message' => 'Book borrowed successfully!.',
+                    flash()->success('Book borrow successfully!', [
+                        'message' => 'Book borrow successfully!.',
                         'title' => 'Success',
                     ]);
 

@@ -63,6 +63,10 @@ Route::prefix('user')->middleware(['auth', user::class])->group(function () {
         return view('user.profile');
     })->name('prof');
 
+    Route::get('/borrowed-books', function () {
+        return view('user.borrowed-books');
+    })->name('bb');
+
 
 
 });
