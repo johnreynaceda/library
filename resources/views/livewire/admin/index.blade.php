@@ -1,46 +1,50 @@
 <div>
-    <div class="p-4">
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-            <div class="bg-white p-6 rounded-lg shadow-md">
-                <h3 class="text-lg font-semibold text-green-700">Number of Borrow Books</h3>
-                <p class="text-2xl font-bold text-gray-800 mt-2">{{ $totalBorrowedBooks }}</p>
-                <p class="text-sm text-gray-500 mt-1">Updated as of today</p>
-            </div>
+    <div>
+        <div class="p-4">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                <div class="bg-white p-6 rounded-lg shadow-md">
+                    <h3 class="text-lg font-semibold text-green-700">Number of Borrow Books</h3>
+                    <p class="text-2xl font-bold text-gray-800 mt-2">{{ $totalBorrowedBooks }}</p>
+                    <p class="text-sm text-gray-500 mt-1">Updated as of today</p>
+                </div>
 
-            <div class="bg-white p-6 rounded-lg shadow-md">
-                <h3 class="text-lg font-semibold text-green-700">Books Not Returned</h3>
-                <p class="text-2xl font-bold text-gray-800 mt-2">{{ $booksNotReturned }}</p>
-                <p class="text-sm text-gray-500 mt-1">Updated as of today</p>
-            </div>
+                <div class="bg-white p-6 rounded-lg shadow-md">
+                    <h3 class="text-lg font-semibold text-green-700">Books Not Returned</h3>
+                    <p class="text-2xl font-bold text-gray-800 mt-2">{{ $booksNotReturned }}</p>
+                    <p class="text-sm text-gray-500 mt-1">Updated as of today</p>
+                </div>
 
-            <div class="bg-white p-6 rounded-lg shadow-md">
-                <h3 class="text-lg font-semibold text-green-700">Total Users</h3>
-                <p class="text-2xl font-bold text-gray-800 mt-2">{{ $totalUsers }}</p>
-                <p class="text-sm text-gray-500 mt-1">Updated as of today</p>
-            </div>
+                <div class="bg-white p-6 rounded-lg shadow-md">
+                    <h3 class="text-lg font-semibold text-green-700">Total Users</h3>
+                    <p class="text-2xl font-bold text-gray-800 mt-2">{{ $totalUsers }}</p>
+                    <p class="text-sm text-gray-500 mt-1">Updated as of today</p>
+                </div>
 
-            <div class="bg-white p-6 rounded-lg shadow-md">
-                <h3 class="text-lg font-semibold text-green-700">Total Books Borrowed</h3>
-                <p class="text-2xl font-bold text-gray-800 mt-2">{{ $totalBooksBorrowed }}</p>
-                <p class="text-sm text-gray-500 mt-1">Updated as of today</p>
-            </div>
+                <div class="bg-white p-6 rounded-lg shadow-md">
+                    <h3 class="text-lg font-semibold text-green-700">Total Books Borrowed</h3>
+                    <p class="text-2xl font-bold text-gray-800 mt-2">{{ $totalBooksBorrowed }}</p>
+                    <p class="text-sm text-gray-500 mt-1">Updated as of today</p>
+                </div>
 
-            <div class="bg-white p-6 rounded-lg shadow-md">
-                <h3 class="text-lg font-semibold text-green-700">Actions Needed</h3>
-                <p class="text-2xl font-bold text-gray-800 mt-2">{{ $actionsNeeded }}</p>
-                <p class="text-sm text-gray-500 mt-1">Updated as of today</p>
-            </div>
+                <div class="bg-white p-6 rounded-lg shadow-md">
+                    <h3 class="text-lg font-semibold text-green-700">Actions Needed</h3>
+                    <p class="text-2xl font-bold text-gray-800 mt-2">{{ $actionsNeeded }}</p>
+                    <p class="text-sm text-gray-500 mt-1">Updated as of today</p>
+                </div>
 
-            <div class="bg-white p-6 rounded-lg shadow-md">
-                <h3 class="text-lg font-semibold text-green-700">Top Borrower</h3>
-                @if($topBorrower)
-                    <p class="text-2xl font-bold text-gray-800 mt-2">{{ $topBorrower->name }}</p>
-                    <p class="text-sm text-gray-500 mt-1">Borrowed {{ $topBorrower->borrowbooks_count }} books</p>
-                @else
-                    <p class="text-2xl font-bold text-gray-800 mt-2">No data available</p>
-                @endif
+                <div class="bg-white p-6 rounded-lg shadow-md">
+                    <h3 class="text-lg font-semibold text-green-700">Top Borrower</h3>
+                    @if($topBorrower)
+                        <p class="text-2xl font-bold text-gray-800 mt-2">{{ $topBorrower->name }}</p>
+                        <p class="text-sm text-gray-500 mt-1">Returned {{ $topBorrower->books_returned }} books</p>
+                    @else
+                        <p class="text-2xl font-bold text-gray-800 mt-2">No data available</p>
+                    @endif
+                </div>
             </div>
         </div>
+    </div>
+
 
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 mt-4">
             <div class="bg-white p-6 rounded-lg shadow-md">
@@ -53,24 +57,16 @@
             <div class="bg-white p-6 rounded-lg shadow-md">
                 <h3 class="text-lg font-semibold text-green-700">Most Borrowed Books</h3>
                 <ul class="mt-4 space-y-2">
+                    @forelse($mostBorrowedBooks as $book)
                     <li class="flex justify-between text-gray-800">
-                        <span>The Great Gatsby</span>
-                        <span>120 times</span>
+                        <span>{{ $book->title }}</span>
+                        <span>{{ $book->borrow_count }} times</span>
                     </li>
-                    <li class="flex justify-between text-gray-800">
-                        <span>To Kill a Mockingbird</span>
-                        <span>100 times</span>
-                    </li>
-                    <li class="flex justify-between text-gray-800">
-                        <span>1984</span>
-                        <span>95 times</span>
-                    </li>
-                    <li class="flex justify-between text-gray-800">
-                        <span>The Catcher in the Rye</span>
-                        <span>90 times</span>
-                    </li>
+                @empty
+                    <li class="text-gray-800">No data available</li>
+                @endforelse
                 </ul>
             </div>
         </div>
     </div>
-</div>
+

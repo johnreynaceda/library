@@ -3,9 +3,10 @@
 namespace App\Livewire\Admin;
 
 use App\Models\borrowbooks as BorrowBook;
+use App\Models\processed_borrowbooks as pB;
 use App\Models\User;
 use Carbon\Carbon;
-use App\Models\books as Book;
+use Illuminate\Support\Facades\DB;
 use Livewire\Component;
 
 class Index extends Component
@@ -16,33 +17,44 @@ class Index extends Component
     public $totalBooksBorrowed;
     public $actionsNeeded;
     public $topBorrower;
+    public $mostBorrowedBooks;
 
     public function mount()
     {
-        // Calculate Total Borrowed Books (Assuming you track 'quantity' in the table)
+        // Calculate Total Borrowed Books
         $this->totalBorrowedBooks = BorrowBook::count();
 
-        // Calculate Books Not Returned after 1 week
-        $oneWeekAgo = Carbon::now()->subWeek();
-        $this->booksNotReturned = BorrowBook::where('status', 'Borrowed')
-            ->where('borrowed_at', '<', $oneWeekAgo)
-            ->count();
+        // Calculate Books Not Returned (where status is 'Not Returned')
+        $this->booksNotReturned = pB::where('status', 'Not Returned')->count();
 
         // Calculate Total Users
         $this->totalUsers = User::count();
 
-        // Calculate Total Books Borrowed (assuming there's no quantity field and you just count the records)
-        $this->totalBooksBorrowed = BorrowBook::where('status', 'Borrowed')->count();
+        // Calculate Total Books Borrowed (where status is 'Approved')
+        $this->totalBooksBorrowed = pB::where('status', 'Approved')->count();
 
-        // Actions Needed (Assuming actions needed are the books that haven't been returned after due date)
-        $this->actionsNeeded = BorrowBook::where('status', 'Borrowed')
+        // Actions Needed (Books that are overdue and still marked as 'Not Returned')
+        $this->actionsNeeded = pB::where('status', 'Not Returned')
             ->where('due_date', '<', Carbon::now())
             ->count();
 
-        // Top Borrower (Assuming top borrower is the one who borrowed the most books)
-        // $this->topBorrower = User::withCount('borrowbooks')
-        //     ->orderBy('borrowbooks_count', 'desc')
-        //     ->first();
+        // Top Borrower based on 'Returned' status
+        $this->topBorrower = DB::table('users')
+            ->join('processed_borrowbooks', 'users.id', '=', 'processed_borrowbooks.user_id')
+            ->where('processed_borrowbooks.status', 'Returned')
+            ->select('users.id', 'users.name', DB::raw('COUNT(processed_borrowbooks.id) as books_returned'))
+            ->groupBy('users.id', 'users.name')
+            ->orderBy('books_returned', 'desc')
+            ->first();
+
+            $this->mostBorrowedBooks = DB::table('processed_borrowbooks')
+            ->join('books', 'processed_borrowbooks.book_id', '=', 'books.id')
+            ->select('books.title', DB::raw('COUNT(processed_borrowbooks.id) as borrow_count'))
+            ->where('processed_borrowbooks.status', 'Returned')
+            ->groupBy('books.id', 'books.title')
+            ->orderBy('borrow_count', 'desc')
+            ->limit(5)
+            ->get();
     }
 
     public function render()
@@ -53,7 +65,8 @@ class Index extends Component
             'totalUsers' => $this->totalUsers,
             'totalBooksBorrowed' => $this->totalBooksBorrowed,
             'actionsNeeded' => $this->actionsNeeded,
-            // 'topBorrower' => $this->topBorrower,
+            'topBorrower' => $this->topBorrower,
+            'mostBorrowedBooks' => $this->mostBorrowedBooks,
         ]);
     }
 }
