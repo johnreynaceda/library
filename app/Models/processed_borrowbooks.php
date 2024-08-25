@@ -19,4 +19,9 @@ class processed_borrowbooks extends Model
     {
         return $this->belongsTo(User::class, 'user_id');
     }
+
+    public function bookReturns()
+    {
+        return $this->hasMany(book_returns::class, 'borrowbook_id');
+    }
 }

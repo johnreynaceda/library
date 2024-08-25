@@ -13,6 +13,7 @@
                         <p class="text-gray-600 mb-1">Publisher: {{ $book->publisher }}</p>
                         <p class="text-gray-600 mb-1">Category: {{ $book->category }}</p>
                         <p class="text-gray-600 mb-1">Description: {{ $book->description }}</p>
+                        <p class="text-gray-600 mb-1">Available: {{ $book->quantity }}</p>
                     </div>
                     <div class="flex justify-center p-4 border-t border-gray-200">
                         <button wire:click="openConfirmModal({{ $book->id }})" class="bg-green-500 text-white py-1 px-4 rounded hover:bg-green-600">Borrow Now</button>
@@ -42,6 +43,11 @@
                     <p class="text-gray-800 mb-2">{{ $selectedBook->author }}</p>
                     <p class="text-gray-700 font-semibold mb-1">Publisher:</p>
                     <p class="text-gray-800">{{ $selectedBook->publisher }}</p>
+                </div>
+
+                <div class="bg-gray-100 p-4 rounded-md shadow-sm w-full mb-4">
+                    <label for="return_date" class="block text-gray-700 font-semibold mb-2">Select Return Date:</label>
+                    <input type="date" id="return_date" wire:model="returnDate" class="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent">
                 </div>
 
                 <!-- Terms and Conditions -->

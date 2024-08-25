@@ -22,6 +22,7 @@ class AddBooks extends Component
     public $category;
     public $description;
     public $image;
+    public $quantity;
     public $bookId;
     public $editBook;
     protected $rules = [
@@ -31,6 +32,7 @@ class AddBooks extends Component
         'author' => 'required|string|max:255',
         'publisher' => 'required|string|max:255',
         'category' => 'required|string|max:255',
+        'quantity' => 'required|string|max:255',
         'description' => 'nullable|string',
         'image' => 'nullable|image|max:2048',
     ];
@@ -60,6 +62,7 @@ class AddBooks extends Component
             'publisher' => $this->publisher,
             'category' => $this->category,
             'description' => $this->description,
+            'quantity' => $this->quantity,
             'image' => $imagePath,
         ]);
 
@@ -72,6 +75,7 @@ class AddBooks extends Component
             'publisher',
             'category',
             'description',
+            'quantity',
             'image',
         ]);
 
@@ -96,6 +100,7 @@ class AddBooks extends Component
         $this->publisher = $this->editBook->publisher;
         $this->category = $this->editBook->category;
         $this->description = $this->editBook->description;
+        $this->quantity = $this->editBook->quantity;
         $this->edit_modal = true;
     }
 
@@ -123,6 +128,7 @@ class AddBooks extends Component
             'publisher' => $this->publisher,
             'category' => $this->category,
             'description' => $this->description,
+            'quantity' => $this->quantity,
             'image' => $imagePath,
         ]);
 
@@ -134,6 +140,7 @@ class AddBooks extends Component
             'publisher',
             'category',
             'description',
+            'quantity',
             'image',
         ]);
 

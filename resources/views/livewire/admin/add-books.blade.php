@@ -13,6 +13,7 @@
                 <th class="px-4 py-2 border-b">Publisher</th>
                 <th class="px-4 py-2 border-b">Category</th>
                 <th class="px-4 py-2 border-b">Description</th>
+                <th class="px-4 py-2 border-b">Quantity</th>
                 <th class="px-4 py-2 border-b">Image</th>
                 <th class="px-4 py-2 border-b">Action</th>
             </tr>
@@ -27,6 +28,7 @@
                     <td class="px-4 py-2 border-b">{{ $book->publisher }}</td>
                     <td class="px-4 py-2 border-b">{{ $book->category }}</td>
                     <td class="px-4 py-2 border-b">{{ $book->description }}</td>
+                    <td class="px-4 py-2 border-b">{{ $book->quantity }}</td>
                     <td class="px-4 py-2 border-b">
                         @if ($book->image)
                             <img src="{{ asset('storage/' . $book->image) }}" alt="Book Cover" class="w-16 h-16 object-cover rounded">
@@ -97,6 +99,12 @@
                 <textarea id="description" wire:model.defer="description" rows="3" class="mt-1 block w-full rounded-md border-gray-300 bg-white shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"></textarea>
                 @error('description') <span class="text-red-500">{{ $message }}</span> @enderror
             </div>
+
+            <div>
+                <label for="quantity" class="block text-sm font-medium text-gray-700">quantity</label>
+                <input type="text" id="quantity" wire:model.defer="quantity" class="mt-1 block w-full rounded-md border-gray-300 bg-white shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                @error('quantity') <span class="text-red-500">{{ $message }}</span> @enderror
+            </div>
             <div>
                 <label for="image" class="block text-sm font-medium text-gray-700">Image</label>
                 <input type="file" id="image" wire:model="image" class="mt-1 block w-full rounded-md border-gray-300 bg-white shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
@@ -153,15 +161,16 @@
                 @error('category') <span class="text-red-500">{{ $message }}</span> @enderror
             </div>
             <div>
-                <label for="description" class="block text-sm font-medium text-gray-700">Description</label>
-                <textarea id="description" wire:model.defer="description" rows="3" class="mt-1 block w-full rounded-md border-gray-300 bg-white shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"></textarea>
-                @error('description') <span class="text-red-500">{{ $message }}</span> @enderror
+                <label for="quantity" class="block text-sm font-medium text-gray-700">quantity</label>
+                <input type="text" id="quantity" wire:model.defer="quantity" class="mt-1 block w-full rounded-md border-gray-300 bg-white shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                @error('quantity') <span class="text-red-500">{{ $message }}</span> @enderror
             </div>
             <div>
                 <label for="image" class="block text-sm font-medium text-gray-700">Image</label>
                 <input type="file" id="image" wire:model="image" class="mt-1 block w-full rounded-md border-gray-300 bg-white shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
                 @error('image') <span class="text-red-500">{{ $message }}</span> @enderror
             </div>
+
         </div>
         <x-slot name="footer">
             <div class="flex justify-end gap-x-4">

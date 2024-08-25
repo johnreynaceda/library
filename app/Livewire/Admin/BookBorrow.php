@@ -37,22 +37,32 @@ class BookBorrow extends Component
         $borrow = BorrowBook::find($borrowId);
         if ($borrow) {
 
+            $book = $borrow->book;
+            if ($book && $book->quantity > 0) {
+                $book->decrement('quantity', 1);
+            } else {
+                flash( 'The book is out of stock.');
+                return;
+            }
+
+
             ProcessedBorrowBook::create([
                 'user_id' => $borrow->user_id,
                 'book_id' => $borrow->book_id,
                 'status' => 'approved',
                 'borrowed_at' => $borrow->borrowed_at,
-                'due_date' => now()->addWeeks(1),
+                'due_date' =>  $borrow->due_date,
             ]);
 
 
             $borrow->delete();
 
-        flash('message', 'Borrow request approved successfully.');
+            flash( 'Borrow request approved successfully.');
         } else {
-        flash('error', 'Borrow request not found.');
+            flash( 'Borrow request not found.');
         }
     }
+
 
     public function decline($borrowId)
     {

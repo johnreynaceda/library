@@ -13,6 +13,8 @@ class Books extends Component
 {
     use WithPagination;
 
+
+    public $returnDate;
     public $confirmmodal = false;
     public $selectedBookId = null;
     public $selectedBook = null;
@@ -58,7 +60,7 @@ class Books extends Component
                         'book_id' => $book->id,
                         'user_id' => $userId,
                         'borrowed_at' => now(),
-                        'due_date' => now(),
+                        'due_date' =>$this->returnDate,
                         'returned_at' => null,
                         'status' => 'Borrow',
                     ]);

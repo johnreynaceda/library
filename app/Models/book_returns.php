@@ -5,9 +5,12 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class books extends Model
+class book_returns extends Model
 {
     use HasFactory;
+
+    protected $table = 'book_returns';
+
     protected $fillable = [
         'title',
         'isbn',
@@ -16,14 +19,14 @@ class books extends Model
         'author',
         'publisher',
         'category',
-        'quantity',
-        'image'
+        'image',
+        'returned_at',
+        'status',
+        'remarks',
     ];
 
-    protected $table = 'books';
-
-    public function processedBorrowBooks()
+    public function processedBorrowBook()
     {
-        return $this->hasMany(processed_borrowbooks::class, 'book_id');
+        return $this->belongsTo(processed_borrowbooks::class, 'borrowbook_id');
     }
 }

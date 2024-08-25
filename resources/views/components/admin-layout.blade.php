@@ -128,7 +128,14 @@
                 <li>
                     <a href="{{route('not-return')}}" class="flex items-center p-2 rounded-lg hover:bg-gray-700">
                         <i class="ri-git-repository-fill"></i>
-                        <span class="ms-3">Book Not Return</span>
+                        <span class="ms-3">Book Not Returned</span>
+                    </a>
+                </li>
+
+                <li>
+                    <a href="{{route('return')}}" class="flex items-center p-2 rounded-lg hover:bg-gray-700">
+                        <i class="ri-git-repository-fill"></i>
+                        <span class="ms-3">Book Returned</span>
                     </a>
                 </li>
                 <li>
