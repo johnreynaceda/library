@@ -18,6 +18,7 @@ class Index extends Component
     public $actionsNeeded;
     public $topBorrower;
     public $mostBorrowedBooks;
+    public $dailyBooksBorrowed;
 
     public function mount()
     {
@@ -55,7 +56,15 @@ class Index extends Component
             ->orderBy('borrow_count', 'desc')
             ->limit(5)
             ->get();
+
+            $this->dailyBooksBorrowed = pB::select(DB::raw('DATE(borrowed_at) as date'), DB::raw('COUNT(*) as borrow_count'))
+            ->where('status', 'Approved')
+            ->groupBy('date')
+            ->orderBy('date', 'asc')
+            ->get();
     }
+
+
 
     public function render()
     {
@@ -67,6 +76,7 @@ class Index extends Component
             'actionsNeeded' => $this->actionsNeeded,
             'topBorrower' => $this->topBorrower,
             'mostBorrowedBooks' => $this->mostBorrowedBooks,
+            'dailyBooksBorrowed' => $this->dailyBooksBorrowed,
         ]);
     }
 }

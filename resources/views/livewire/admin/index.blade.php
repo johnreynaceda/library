@@ -50,7 +50,7 @@
             <div class="bg-white p-6 rounded-lg shadow-md">
                 <h3 class="text-lg font-semibold text-green-700">Daily Books Borrowed</h3>
                 <div class="mt-4 h-64 bg-gray-100 rounded-lg">
-                    <div class="flex items-center justify-center h-full text-gray-500">Chart goes here</div>
+                    <canvas id="dailyBooksBorrowedChart"></canvas>
                 </div>
             </div>
 
@@ -68,5 +68,33 @@
                 </ul>
             </div>
         </div>
+
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+        <script>
+         document.addEventListener('DOMContentLoaded', function () {
+    var ctx = document.getElementById('dailyBooksBorrowedChart').getContext('2d');
+    var dailyBooksBorrowedChart = new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: @json($dailyBooksBorrowed->pluck('date')),
+            datasets: [{
+                label: 'Books Borrowed',
+                data: @json($dailyBooksBorrowed->pluck('borrow_count')),
+                backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                borderColor: 'rgba(75, 192, 192, 1)',
+                borderWidth: 1
+            }]
+        },
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
+        }
+    });
+});
+
+        </script>
     </div>
 

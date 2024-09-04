@@ -26,7 +26,7 @@ new #[Layout('layouts.guest')] class extends Component
             'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:'.User::class],
             'password' => ['required', 'string', 'confirmed', Rules\Password::defaults()],
         ]);
-  
+
         $validated['password'] = Hash::make($validated['password']);
 
         event(new Registered($user = User::create($validated)));
@@ -77,7 +77,9 @@ new #[Layout('layouts.guest')] class extends Component
         </div>
 
         <div class="flex items-center justify-end mt-4">
-
+        <span>
+            <a href="{{route('login')}}">Already have an account?</a>
+        </span>
 
             <x-primary-button class="ms-4">
                 {{ __('Register') }}
