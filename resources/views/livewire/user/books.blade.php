@@ -12,7 +12,6 @@
                         <p class="text-gray-600 mb-1">Author: {{ $book->author }}</p>
                         <p class="text-gray-600 mb-1">Publisher: {{ $book->publisher }}</p>
                         <p class="text-gray-600 mb-1">Category: {{ $book->category }}</p>
-                        <p class="text-gray-600 mb-1">Description: {{ $book->description }}</p>
                         <p class="text-gray-600 mb-1">Available: {{ $book->quantity }}</p>
                     </div>
                     <div class="flex justify-center p-4 border-t border-gray-200">
@@ -31,26 +30,16 @@
         </div>
     </div>
 
+    <!-- First Modal: Borrow Book -->
     <x-modal-card title="Borrow Book" name="confirmmodal" wire:model.defer="confirmmodal" class="max-w-lg mx-auto bg-white shadow-lg rounded-lg p-6">
         <div class="flex flex-col items-center">
             @if ($selectedBook)
-                <!-- Book Cover Photo -->
                 <img src="{{ $selectedBook->image ? asset('storage/' . $selectedBook->image) : 'https://via.placeholder.com/300' }}" alt="Book Cover" class="w-full h-64 object-cover rounded-md shadow-md mb-4">
-
-                <!-- Book Details -->
-                <div class="bg-gray-100 p-4 rounded-md shadow-sm w-full mb-4">
-                    <p class="text-gray-700 font-semibold mb-1">Author:</p>
-                    <p class="text-gray-800 mb-2">{{ $selectedBook->author }}</p>
-                    <p class="text-gray-700 font-semibold mb-1">Publisher:</p>
-                    <p class="text-gray-800">{{ $selectedBook->publisher }}</p>
-                </div>
-
                 <div class="bg-gray-100 p-4 rounded-md shadow-sm w-full mb-4">
                     <label for="return_date" class="block text-gray-700 font-semibold mb-2">Select Return Date:</label>
-                    <input type="date" id="return_date" wire:model="returnDate" class="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent">
+                    <input type="date" id="return_date" wire:model="returnDate" class="w-full px-4 py-2 border rounded-md">
                 </div>
 
-                <!-- Terms and Conditions -->
                 <div class="w-full bg-gray-50 p-4 rounded-md shadow-sm">
                     <x-checkbox id="agree" wire:model="isAgreed" label="I agree to the terms and conditions" primary />
                     <div class="mt-4 text-gray-700">
@@ -74,7 +63,6 @@
                     </div>
                 </div>
 
-
                 @if ($validationMessage)
                     <div class="w-full bg-red-100 text-red-700 p-4 rounded-md mb-4">
                         {{ $validationMessage }}
@@ -85,9 +73,29 @@
 
         <x-slot name="footer">
             <div class="flex justify-end gap-x-4 p-4">
-                <x-button flat label="Cancel" wire:click="closeModal" class="bg-gray-300 hover:bg-gray-400 text-gray-800 rounded-lg px-4 py-2 transition duration-300" />
-                <x-button primary label="Borrow Now" wire:click="borrow" class="bg-blue-600 hover:bg-blue-700 text-white rounded-lg px-4 py-2 transition duration-300" />
+                <x-button flat label="Cancel" wire:click="closeModal" />
+                <x-button primary label="Borrow Now" wire:click="borrow" />
             </div>
         </x-slot>
+    </x-modal-card>
+
+    <!-- Second Modal: Show QR Code -->
+    <x-modal-card title="QR Code" name="qrModal" wire:model.defer="qrModal" class="max-w-lg mx-auto bg-white shadow-lg rounded-lg p-6">
+        <div class="flex flex-col items-center">
+            @if ($qrCodeDataUrl)
+                <!-- Display QR Code -->
+                <img src="{{ $qrCodeDataUrl }}" alt="QR Code for Borrowed Book" class="mt-4 mb-4 w-64 h-64">
+
+                <!-- Download QR Code Button -->
+                <a href="{{ $qrCodeDataUrl }}" download="borrowed_book_qr_code.png" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                    Download QR Code
+                </a>
+
+                <!-- Instruction -->
+                <p class="text-gray-700 mt-4 text-center">
+                    Please download the QR code before closing this modal. You will need to present it at the library when picking up the borrowed book.
+                </p>
+            @endif
+        </div>
     </x-modal-card>
 </div>

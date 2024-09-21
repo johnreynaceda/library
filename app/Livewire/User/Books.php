@@ -8,18 +8,21 @@ use Livewire\WithPagination;
 use Livewire\Component;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
+use Endroid\QrCode\QrCode;
+use Endroid\QrCode\Writer\PngWriter;
 
 class Books extends Component
 {
     use WithPagination;
 
-
     public $returnDate;
     public $confirmmodal = false;
+    public $qrModal = false; // New modal for QR code
     public $selectedBookId = null;
     public $selectedBook = null;
     public $isAgreed = false;
-    public $validationMessage = '';  // New property for validation message
+    public $validationMessage = '';
+    public $qrCodeDataUrl = '';  // Store the QR code image data URL
 
     protected $listeners = ['openConfirmModal'];
 
@@ -43,6 +46,11 @@ class Books extends Component
         $this->confirmmodal = false;
     }
 
+    public function closeQRModal()
+    {
+        $this->qrModal = false;
+    }
+
     public function borrow()
     {
         if (!$this->isAgreed) {
@@ -60,15 +68,23 @@ class Books extends Component
                         'book_id' => $book->id,
                         'user_id' => $userId,
                         'borrowed_at' => now(),
-                        'due_date' =>$this->returnDate,
+                        'due_date' => $this->returnDate,
                         'returned_at' => null,
                         'status' => 'Borrow',
                     ]);
-                    flash()->success('Book borrow successfully!', [
-                        'message' => 'Book borrow successfully!.',
-                        'title' => 'Success',
-                    ]);
 
+                    // Generate the QR Code
+                    $qrCode = QrCode::create('Book ID: ' . $book->id . ', Title: ' . $book->title . ', Borrower: ' . Auth::user()->name);
+                    $writer = new PngWriter();
+                    $pngData = $writer->write($qrCode)->getString();
+
+                    // Create a base64 URL for QR image
+                    $this->qrCodeDataUrl = 'data:image/png;base64,' . base64_encode($pngData);
+
+                    // Show QR modal after successful borrow
+                    $this->qrModal = true;
+
+                    // Close borrow modal
                     $this->closeModal();
                 } catch (\Exception $e) {
                     Log::error('Error borrowing book: ' . $e->getMessage());
