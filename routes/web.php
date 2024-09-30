@@ -4,14 +4,18 @@ use App\Http\Middleware\admin;
 use App\Http\Middleware\user;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\AuthController;
+use App\Http\Middleware\VerifyEmail;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 Route::view('/', 'welcome');
+Route::get('/verification', function(){
+    return view('page.verify');
+})->name('verification');
 
-// Route::view('dashboard', 'dashboard')
-//     ->middleware(['auth', 'verified'])
-//     ->name('dashboard');
+
+
+    
 
 Route::middleware(['auth'])->group(function () {
     Route::get('/dashboard', function () {
@@ -55,7 +59,7 @@ Route::prefix('admin')->middleware(['auth', admin::class])->group(function () {
 });
 
 
-Route::prefix('user')->middleware(['auth', user::class])->group(function () {
+Route::prefix('user')->middleware(['auth', user::class,VerifyEmail::class])->group(function () {
     Route::get('/dashboard', function () {
         return view('user.index');
     })->name('user-dashboard');
